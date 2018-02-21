@@ -60,7 +60,7 @@ static void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
+char *str="hello, this is from USART1\r\n";
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -99,7 +99,13 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-char *str="hello, this is from USART1\r\n";
+
+	HAL_UART_Transmit_IT(&huart1,(uint8_t *)str,30 );
+	
+	if(HAL_UART_Receive_IT(&huart1,(uint8_t *)&str,1)!=HAL_OK){
+		HAL_UART_Transmit(&huart1,(uint8_t *)&"ERROR\r\n",7,10);
+		
+	}
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,9 +116,10 @@ char *str="hello, this is from USART1\r\n";
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+		
 HAL_Delay(1000);
 		HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
-		HAL_UART_Transmit_IT(&huart1,(uint8_t *)str,10 );
+	
   }
   /* USER CODE END 3 */
 
@@ -245,6 +252,12 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	//HAL_UART_Transmit (&huart1,(uint8_t *)&"get from HAL_UART_RxCpltCallback\r\n",32);
+	HAL_UART_Transmit (&huart1,(uint8_t *)&str,1,0xffff);
+	HAL_UART_Receive_IT(&huart1,(uint8_t *)&str,1);
+	
+}
 
 /* USER CODE END 4 */
 
