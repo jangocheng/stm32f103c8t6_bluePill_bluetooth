@@ -104,7 +104,11 @@ int main(void)
 	HAL_UART_Transmit_IT(&huart1,(uint8_t *)str,30 );
 	
 	if(HAL_UART_Receive_IT(&huart1,(uint8_t *)&rxNumber,1)!=HAL_OK){
-		HAL_UART_Transmit(&huart1,(uint8_t *)&"ERROR\r\n",7,10);
+		HAL_UART_Transmit(&huart1,(uint8_t *)&"usart1 ERROR\r\n",7,10);
+		
+	}
+		if(HAL_UART_Receive_IT(&huart2,(uint8_t *)&rxNumber,1)!=HAL_OK){
+		HAL_UART_Transmit(&huart1,(uint8_t *)&"usart2 ERROR\r\n",7,10);
 		
 	}
   /* USER CODE END 2 */
@@ -257,7 +261,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	//HAL_UART_Transmit (&huart1,(uint8_t *)&"get from HAL_UART_RxCpltCallback\r\n",32);
 	
 	HAL_UART_Transmit (&huart1,(uint8_t *)&rxNumber,1,0xffff);
-	 
+		 
 	
 	switch(rxNumber ){
 		case '0':
@@ -269,6 +273,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	} 
 	//reopen
 	HAL_UART_Receive_IT(&huart1,(uint8_t *)&rxNumber,1);
+		HAL_UART_Receive_IT(&huart2,(uint8_t *)&rxNumber,1);
 	
 }
 
