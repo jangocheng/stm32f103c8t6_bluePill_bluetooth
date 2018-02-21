@@ -122,8 +122,8 @@ int main(void)
 
   /* USER CODE BEGIN 3 */
 		
-//HAL_Delay(1000);
-	//	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+HAL_Delay(1000);
+		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
 	
   }
   /* USER CODE END 3 */
