@@ -262,8 +262,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 	
 	HAL_UART_Transmit (&huart1,(uint8_t *)&rxNumber,1,0xffff);
 		 
-	
-	switch(rxNumber ){
+	if(huart == &huart2){
+		switch(rxNumber ){
 		case '0':
 			 HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET); 
 		break;
@@ -271,6 +271,16 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 				HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET);
 			break;
 	} 
+	}
+	
+//	switch(rxNumber ){
+//		case '0':
+//			 HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET); 
+//		break;
+//		default:
+//				HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET);
+//			break;
+//	} 
 	//reopen
 	HAL_UART_Receive_IT(&huart1,(uint8_t *)&rxNumber,1);
 		HAL_UART_Receive_IT(&huart2,(uint8_t *)&rxNumber,1);
