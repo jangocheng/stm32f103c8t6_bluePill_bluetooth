@@ -60,7 +60,8 @@ static void MX_USART2_UART_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
+char *str="hello, this is from USART1\r\n";
+uint8_t rxNumber=0;
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -100,6 +101,16 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
+	HAL_UART_Transmit_IT(&huart1,(uint8_t *)str,30 );
+	
+	if(HAL_UART_Receive_IT(&huart1,(uint8_t *)&rxNumber,1)!=HAL_OK){
+		HAL_UART_Transmit(&huart1,(uint8_t *)&"usart1 ERROR\r\n",7,10);
+		
+	}
+		if(HAL_UART_Receive_IT(&huart2,(uint8_t *)&rxNumber,1)!=HAL_OK){
+		HAL_UART_Transmit(&huart1,(uint8_t *)&"usart2 ERROR\r\n",7,10);
+		
+	}
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,8 +121,10 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+		
 HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+		HAL_GPIO_TogglePin(GPIOB,GPIO_PIN_11);
+	
   }
   /* USER CODE END 3 */
 
@@ -244,6 +257,35 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	//HAL_UART_Transmit (&huart1,(uint8_t *)&"get from HAL_UART_RxCpltCallback\r\n",32);
+	
+	HAL_UART_Transmit (&huart1,(uint8_t *)&rxNumber,1,0xffff);
+		 
+	if(huart == &huart2){
+		switch(rxNumber ){
+		case '0':
+			 HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET); 
+		break;
+		default:
+				HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET);
+			break;
+	} 
+	}
+	
+//	switch(rxNumber ){
+//		case '0':
+//			 HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET); 
+//		break;
+//		default:
+//				HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET);
+//			break;
+//	} 
+	//reopen
+	HAL_UART_Receive_IT(&huart1,(uint8_t *)&rxNumber,1);
+		HAL_UART_Receive_IT(&huart2,(uint8_t *)&rxNumber,1);
+	
+}
 
 /* USER CODE END 4 */
 

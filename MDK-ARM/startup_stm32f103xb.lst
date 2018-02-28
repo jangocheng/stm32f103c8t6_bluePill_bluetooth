@@ -501,8 +501,7 @@ ork --depend=stm32f103c8t6_bluepill_bluepill\startup_stm32f103xb.d -ostm32f103c
 tm32f103c8t6_bluePill_bluePill\MDK-ARM\RTE -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx
 _DFP\1.1.0\Device\Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__MICROLI
 B SETA 1" --predefine="__UVISION_VERSION SETA 515" --predefine="STM32F10X_MD SE
-TA 1" --predefine="STM32F10X_MD SETA 1" --list=startup_stm32f103xb.lst startup_
-stm32f103xb.s
+TA 1" --list=startup_stm32f103xb.lst startup_stm32f103xb.s
 
 
 
